@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Santalucía Seguros - Pague su recibo en segundos. Método rápido, seguro y sin complicaciones. PayPal, tarjeta o transferencia.">
+    <title>Santalucía Seguros 2026 | Pago de Recibos Rápido y Seguro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f5f7fc;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-blue: #00257a;
+            --secondary-blue: #0668f5;
+            --accent-yellow: #ffdd43;
+            --text-dark: #1e293b;
+            --text-gray: #475569;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 20px 35px -12px rgba(0,37,122,0.15);
+            --shadow-hover: 0 25px 40px -12px rgba(0,37,122,0.25);
+            --border-radius-lg: 28px;
+            --border-radius-md: 20px;
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+        .pay-header-btn {
+            background: var(--accent-yellow);
+            color: var(--primary-blue);
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .pay-header-btn:hover {
+            background: #ffe15e;
+            transform: scale(1.02);
+        }
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .mobile-menu-btn:hover {
+            background: #f1f5f9;
+        }
+        .mobile-menu-btn svg {
+            width: 26px;
+            stroke: var(--primary-blue);
+            stroke-width: 2;
+        }
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 2rem 1.5rem;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+        }
+        .nav-menu.active {
+            right: 0;
+        }
+        .nav-menu li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+        .nav-menu li a:hover {
+            color: var(--secondary-blue);
+        }
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 990;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* IMAGEN PRINCIPAL (responsive y bien visible) */
+        .hero-image-container {
+            max-width: 1280px;
+            margin: 1.5rem auto 0;
+            padding: 0 1.5rem;
+        }
+        .main-image {
+            width: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: #f0f2f5;
+        }
+        .main-image img {
+            width: 100%;
+            height: auto;
+            max-height: 420px;
+            object-fit: cover;
+            object-position: center 30%;
+            display: block;
+        }
+
+        /* HERO COPY (texto persuasivo) */
+        .hero-copy {
+            max-width: 900px;
+            margin: 2rem auto 0.5rem;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+        .hero-copy h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+        }
+        .hero-copy p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            max-width: 650px;
+            margin: 0 auto 1rem;
+        }
+        .security-badge {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .security-badge span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e4620;
+            background: #e8f5e9;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+        }
+        .security-badge svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* PAYMENT SECTION */
+        .payment-wrapper {
+            max-width: 700px;
+            margin: 1.5rem auto 2rem;
+            padding: 0 1.5rem;
+        }
+        .payment-card {
+            background: white;
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .payment-header {
+            background: linear-gradient(115deg, var(--primary-blue), #003d9e);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .payment-header h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+        }
+        .payment-body {
+            padding: 2rem;
+        }
+
+        .payment-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .pay-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            border: 2px solid var(--secondary-blue);
+            color: var(--secondary-blue);
+        }
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            background: #f0f7ff;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+        .pay-btn svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .bank-details-container {
+            margin-top: 1.5rem;
+            display: none;
+            animation: fadeInUp 0.3s ease;
+        }
+        .bank-details-container.show {
+            display: block;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .bank-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 1.3rem;
+            border: 1px solid var(--border);
+        }
+        .bank-title {
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bank-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .bank-row:last-child {
+            border-bottom: none;
+        }
+        .bank-label {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .bank-value {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        .note-text {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 1rem;
+            text-align: center;
+            background: #e6f7e6;
+            padding: 0.7rem;
+            border-radius: 16px;
+        }
+
+        /* GRID DE 6 SEGUROS */
+        .cards-grid {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .insurance-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.25s;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+        .insurance-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
+        }
+        .card-img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-desc {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* SECCIONES DETALLE */
+        .detail-section {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+        .detail-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .detail-header h2 {
+            color: var(--primary-blue);
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+        .detail-header p {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .subgrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.5rem;
+        }
+        .info-block {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 24px;
+        }
+        .info-block h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        .footer-logo img {
+            height: 42px;
+            filter: brightness(0) invert(1);
+        }
+        .footer p {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 700px) {
+            .hero-copy h1 {
+                font-size: 1.8rem;
+            }
+            .pay-btn {
+                font-size: 1rem;
+                padding: 0.9rem;
+            }
+            .bank-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .main-image img {
+                max-height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-main">
+        <a href="#" class="logo"><img src="https://www.santalucia.es/imagenes_slw4/1574967615331/santalucia-seguros.svg" alt="Santalucía Seguros"></a>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <button class="pay-header-btn" id="goToPaymentBtn">
+                <svg width="18" height="18" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="6" width="44" height="32" rx="4" fill="currentColor" opacity="0.2"/>
+                    <rect x="2" y="14" width="44" height="6" fill="currentColor" opacity="0.4"/>
+                    <rect x="6" y="24" width="8" height="6" rx="1" fill="currentColor"/>
+                    <line x1="32" y1="26" x2="40" y2="26" stroke="currentColor" stroke-width="2"/>
+                    <line x1="32" y1="30" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Pagar ahora
+            </button>
+            <button class="mobile-menu-btn" id="menuToggleBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+    </div>
+</header>
+<div class="menu-overlay" id="menuOverlay"></div>
+<ul class="nav-menu" id="navMenu">
+    <li><a href="#" data-section="hogarDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 2 L2 14 L2 32 L11 32 L11 22 L21 22 L21 32 L30 32 L30 14 Z" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M16 2 L30 14" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Hogar</a></li>
+    <li><a href="#" data-section="decesosDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" stroke="#9ca3af" stroke-width="2" fill="none"/><line x1="16" y1="16" x2="16" y2="7" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="23" y2="16" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.5" fill="#9ca3af"/></svg>Decesos</a></li>
+    <li><a href="#" data-section="vidaDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="7" r="5" stroke="#9ca3af" stroke-width="2" fill="none"/><line x1="16" y1="12" x2="16" y2="24" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="19" x2="24" y2="19" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="24" x2="10" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="24" x2="22" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/></svg>Vida</a></li>
+    <li><a href="#" data-section="saludDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,24 8,24 12,14 16,34 20,10 24,24 30,24" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Salud</a></li>
+    <li><a href="#" data-section="mascotasDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="26" rx="9" ry="6" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="7" cy="17" rx="3.5" ry="5" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="25" cy="17" rx="3.5" ry="5" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="11" cy="9" rx="3" ry="4" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="21" cy="9" rx="3" ry="4" stroke="#9ca3af" stroke-width="2" fill="none"/></svg>Mascotas</a></li>
+    <li><a href="#" data-section="ahorroDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="12" stroke="#9ca3af" stroke-width="2" fill="none"/><path d="M28 16 C32 12 34 17 30 19" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="13" y="7" width="6" height="2" rx="1" fill="#9ca3af"/><circle cx="22" cy="19" r="1.5" fill="#9ca3af"/><line x1="10" y1="28" x2="8" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="22" y1="28" x2="24" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/></svg>Ahorro</a></li>
+</ul>
+
+<!-- IMAGEN PRINCIPAL (restaurada, con detección automática responsive) -->
+<div class="hero-image-container">
+    <div class="main-image">
+        <img src="https://institutosantalucia.es/wp-content/uploads/2020/10/como-puedo-pagar-mi-seguro-de-vida-01-1.jpg" alt="Pago seguro de seguros Santalucía">
+    </div>
+</div>
+
+<!-- COPY PERSUASIVO -->
+<div class="hero-copy">
+    <h1>Paga tu recibo <span style="color: var(--secondary-blue);">en segundos</span></h1>
+    <p>La forma más rápida, segura y sin complicaciones de poner al día tus seguros. Elige tu método favorito y olvídate de esperas.</p>
+    <div class="security-badge">
+        <span>
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M128 28L38 68v60c0 60 40 100 90 100s90-40 90-100V68l-90-40z" fill="#10B981"/>
+                <path d="M88 128l32 32 48-48" stroke="white" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Pago cifrado SSL
+        </span>
+    </div>
+</div>
+
+<!-- SECCIÓN DE PAGO -->
+<div class="payment-wrapper" id="pago-section">
+    <div class="payment-card">
+        <div class="payment-header">
+            <h2>Pago de recibos online</h2>
+        </div>
+        <div class="payment-body">
+            <div class="payment-buttons">
+                <button class="pay-btn" id="paypalBtn">
+                    <svg width="28" height="28" viewBox="0 0 48 44" fill="none"><rect x="2" y="4" width="44" height="36" rx="4" fill="#003087"/><text x="24" y="28" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">PayPal</text></svg>
+                    Pagar con PayPal
+                </button>
+                <button class="pay-btn" id="cardBtn">
+                    <svg width="28" height="28" viewBox="0 0 48 44" fill="none"><rect x="2" y="6" width="44" height="32" rx="4" fill="#1e293b"/><rect x="2" y="14" width="44" height="6" fill="rgba(255,255,255,0.3)"/><rect x="6" y="24" width="8" height="6" rx="1" fill="#fbbf24"/><line x1="32" y1="26" x2="40" y2="26" stroke="white" stroke-width="2"/><line x1="32" y1="30" x2="38" y2="30" stroke="white" stroke-width="2"/></svg>
+                    Pagar con Tarjeta
+                </button>
+                <button class="pay-btn" id="transferBtn">
+                    <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="85" width="80" height="5" fill="#7f8c8d"/>
+                        <rect x="15" y="80" width="70" height="5" fill="#95a5a6"/>
+                        <rect x="20" y="35" width="60" height="45" fill="#34495e"/>
+                        <rect x="28" y="40" width="10" height="40" fill="#ecf0f1"/>
+                        <rect x="45" y="40" width="10" height="40" fill="#ecf0f1"/>
+                        <rect x="62" y="40" width="10" height="40" fill="#ecf0f1"/>
+                        <polygon points="50,5 90,35 10,35" fill="#2c3e50"/>
+                        <circle cx="50" cy="22" r="9" fill="#f1c40f"/>
+                        <text x="50" y="26" font-size="13" font-weight="bold" fill="#2c3e50" text-anchor="middle">$</text>
+                    </svg>
+                    Transferencia bancaria
+                </button>
+            </div>
+            <div id="bankDetails" class="bank-details-container">
+                <div class="bank-card">
+                    <div class="bank-title">🏦 Datos para transferencia</div>
+                    <div class="bank-row"><span class="bank-label">Banco:</span><span class="bank-value">ZUISA BANCO DUCASCOPY</span></div>
+                    <div class="bank-row"><span class="bank-label">Beneficiario:</span><span class="bank-value">SANTALUCÍA SEGUROS S.A.</span></div>
+                    <div class="bank-row"><span class="bank-label">IBAN:</span><span class="bank-value">ES12 3456 7890 1234 5678 9012</span></div>
+                    <div class="bank-row"><span class="bank-label">BIC/SWIFT:</span><span class="bank-value">ZUBDESMMXXX</span></div>
+                    <div class="bank-row"><span class="bank-label">Concepto:</span><span class="bank-value">Póliza + número de póliza</span></div>
+                    <div class="note-text">
+                        <strong>✔️ Transferencias instantáneas:</strong> Si su entidad bancaria ofrece transferencias inmediatas (Instant Payments), el abono se reflejará en nuestra cuenta en cuestión de segundos, agilizando la validación de su pago. Para el resto de transferencias ordinarias, el plazo estimado es de 24-48 horas hábiles.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GRID DE 6 SEGUROS -->
+<div class="cards-grid" id="cardsGrid">
+    <div class="insurance-card" data-target="hogarDetalle">
+        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976190760/hogar_home_v2.webp" alt="Seguro Hogar">
+        <div class="card-content"><div class="card-title">🏠 Seguros de Hogar</div><div class="card-desc">Tu casa siempre protegida con el mejor seguro de Hogar.</div></div>
+    </div>
+    <div class="insurance-card" data-target="decesosDetalle">
+        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976190999/decesos_home_v3.webp" alt="Seguro Decesos">
+        <div class="card-content"><div class="card-title">🕊️ Seguros de Decesos</div><div class="card-desc">Tranquilidad garantizada: seguros de Decesos con cobertura completa.</div></div>
+    </div>
+    <div class="insurance-card" data-target="vidaDetalle">
+        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976191059/vida_home_v2.webp" alt="Seguro Vida">
+        <div class="card-content"><div class="card-title">❤️ Seguros de Vida</div><div class="card-desc">Asegura hoy tu vida y cuida a quienes amas mañana.</div></div>
+    </div>
+    <div class="insurance-card" data-target="saludDetalle">
+        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976192101/salud3_home_v2.webp" alt="Seguro Salud">
+        <div class="card-content"><div class="card-title">🏥 Seguros de Salud</div><div class="card-desc">Tu salud, nuestra prioridad: elige el mejor seguro médico.</div></div>
+    </div>
+    <div class="insurance-card" data-target="mascotasDetalle">
+        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976192312/mascotas_home_v4.webp" alt="Seguro Mascotas">
+        <div class="card-content"><div class="card-title">🐾 Seguros de Mascotas</div><div class="card-desc">Protege a tu mascota con el mejor seguro, tranquilidad garantizada.</div></div>
+    </div>
+    <div class="insurance-card" data-target="ahorroDetalle">
+        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976192459/ahorro_home_v3.webp" alt="Ahorro e Inversión">
+        <div class="card-content"><div class="card-title">💰 Ahorro e Inversión</div><div class="card-desc">Multiplica tus ahorros y asegura tu tranquilidad financiera.</div></div>
+    </div>
+</div>
+
+<!-- SECCIONES DETALLE -->
+<div id="hogarDetalle" class="detail-section"><div class="detail-header"><h2>Tu hogar, siempre protegido</h2><p>Un seguro de hogar protege tu vivienda y bienes frente a daños, robos e imprevistos, evitando gastos inesperados y dándote la tranquilidad que necesitas cada día.</p></div><div class="subgrid"><div class="info-block"><h3>🏚️ Daños materiales</h3><p>Cubrimos fenómenos climáticos, escapes de agua o actos vandálicos. Reparación o reposición de enseres y estructuras sin complicaciones.</p></div><div class="info-block"><h3>🧾 Gastos</h3><p>Extinción de incendios, limpieza, demolición, alojamiento temporal si la vivienda queda inhabitable, personal de seguridad y vigilancia.</p></div><div class="info-block"><h3>⚖️ Responsabilidad civil</h3><p>Protección ante daños a terceros: si tu hijo rompe una ventana o una fuga afecta al vecino, nos encargamos de la indemnización.</p></div></div></div>
+<div id="decesosDetalle" class="detail-section"><div class="detail-header"><h2>Protección integral para ti y los tuyos</h2><p>Un seguro de decesos cubre gastos de funeral y trámites, ofreciendo tranquilidad financiera y acompañamiento humano.</p></div><div class="subgrid"><div class="info-block"><h3>👨‍👩‍👧 Para todos</h3><p>Familias, parejas y solteros encuentran protección conjunta o individual. Pensado para jóvenes, adultos o quienes viven solos.</p></div><div class="info-block"><h3>✅ Ventajas clave</h3><p>Tranquilidad financiera y apoyo humano, eliminando gestiones y costes inesperados. Acompañamiento emocional y servicios de valor añadido.</p></div><div class="info-block"><h3>⏳ El mejor momento</h3><p>Cuanto antes lo contrates, mayor tranquilidad. Primas adaptadas a la edad y protección inmediata.</p></div></div></div>
+<div id="vidaDetalle" class="detail-section"><div class="detail-header"><h2>Seguridad y tranquilidad para tu familia</h2><p>Proteger el futuro de tus seres queridos empieza con un seguro de Vida. Esta póliza te asegura que, pase lo que pase, tus seres queridos contarán con el apoyo económico necesario.</p></div><div class="subgrid"><div class="info-block"><h3>⚰️ Fallecimiento</h3><p>Indemnización por fallecimiento del asegurado, garantizando respaldo económico a los seres queridos.</p></div><div class="info-block"><h3>🛠️ Coberturas personalizadas</h3><p>Fallecimiento por accidente, invalidez absoluta, segunda opinión médica, enfermedad terminal, rehabilitación cardíaca.</p></div></div></div>
+<div id="saludDetalle" class="detail-section"><div class="detail-header"><h2>Protege tu bienestar físico y emocional</h2><p>Con los seguros médicos privados de Santalucía accedes a una amplia red de especialistas, servicios digitales y cobertura completa.</p></div><div class="subgrid"><div class="info-block"><h3>⏱️ Atención sin esperas</h3><p>Consultas y tratamientos sin listas de espera.</p></div><div class="info-block"><h3>🔬 Especialistas y pruebas</h3><p>Sin autorizaciones ni retrasos.</p></div><div class="info-block"><h3>🌍 Cobertura global</h3><p>Protección nacional y asistencia internacional.</p></div><div class="info-block"><h3>📞 Asistencia 24h</h3><p>Atención médica telefónica y digital.</p></div></div></div>
+<div id="mascotasDetalle" class="detail-section"><div class="detail-header"><h2>Seguro de Mascotas</h2><p>Protege a tu perro o gato con responsabilidad civil, asesoramiento veterinario y garantías opcionales.</p></div><div class="subgrid"><div class="info-block"><h3>🐕 Responsabilidad Civil</h3><p>Daños a terceros ocasionados por tu mascota.</p></div><div class="info-block"><h3>📞 Consulta veterinaria</h3><p>Asesoramiento telefónico 24/7.</p></div><div class="info-block"><h3>➕ Garantías opcionales</h3><p>Accidentes, robo, gastos veterinarios, sacrificio y fallecimiento.</p></div></div></div>
+<div id="ahorroDetalle" class="detail-section"><div class="detail-header"><h2>Impulsa tu futuro financiero</h2><p>Descubre soluciones flexibles y seguras para hacer crecer tu dinero con total confianza.</p></div><div class="subgrid"><div class="info-block"><h3>📈 Crece con seguridad</h3><p>Productos flexibles y rentables adaptados a tus objetivos.</p></div><div class="info-block"><h3>🎯 Estrategias a tu medida</h3><p>Perfil de riesgo, capacidad económica y horizonte temporal.</p></div><div class="info-block"><h3>🤝 Tu futuro, en buenas manos</h3><p>Acompañamiento experto y confianza.</p></div></div></div>
+
+<footer class="footer">
+    <div class="footer-logo"><img src="https://www.santalucia.es/imagenes_slw4/1574967615331/santalucia-seguros.svg" alt="Santalucía Seguros"></div>
+    <p>© 2026 Santalucía Seguros. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    // Menú hamburguesa
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const navMenu = document.getElementById('navMenu');
+    const overlay = document.getElementById('menuOverlay');
+    function closeMenu() { navMenu.classList.remove('active'); overlay.classList.remove('active'); }
+    function openMenu() { navMenu.classList.add('active'); overlay.classList.add('active'); }
+    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); if(navMenu.classList.contains('active')) closeMenu(); else openMenu(); });
+    overlay.addEventListener('click', closeMenu);
+    
+    // Navegación menú lateral
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-section');
+            if(targetId) {
+                document.querySelectorAll('.detail-section').forEach(sec => sec.classList.remove('active'));
+                const targetSec = document.getElementById(targetId);
+                if(targetSec) targetSec.classList.add('active');
+                targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            closeMenu();
+        });
+    });
+    
+    // Click en tarjetas de productos
+    document.querySelectorAll('.insurance-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const targetId = card.getAttribute('data-target');
+            if(targetId) {
+                document.querySelectorAll('.detail-section').forEach(sec => sec.classList.remove('active'));
+                const activeSec = document.getElementById(targetId);
+                if(activeSec) activeSec.classList.add('active');
+                activeSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Botón de pago en header
+    document.getElementById('goToPaymentBtn').addEventListener('click', () => {
+        document.getElementById('pago-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    
+    // Botones de pago (simulados)
+    document.getElementById('paypalBtn').addEventListener('click', () => {
+        alert('🔵 Redirigiendo a PayPal para completar su pago de forma segura. (Aquí irá el enlace de pago real)');
+    });
+    document.getElementById('cardBtn').addEventListener('click', () => {
+        alert('💳 Redirigiendo a la pasarela de pago con tarjeta. (Aquí irá el enlace de pago real)');
+    });
+    
+    const bankDetails = document.getElementById('bankDetails');
+    document.getElementById('transferBtn').addEventListener('click', () => {
+        bankDetails.classList.toggle('show');
+        if (bankDetails.classList.contains('show')) {
+            bankDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    });
+    
+    // Inicial
+    bankDetails.classList.remove('show');
+    document.querySelectorAll('.detail-section').forEach(sec => sec.classList.remove('active'));
+</script>
+</body>
+</html>
