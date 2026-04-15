@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="es-ES">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="Santalucía Seguros - Pague su recibo en segundos. Método rápido, seguro y sin complicaciones. PayPal, tarjeta o transferencia.">
-    <title>Santalucía Seguros 2026 | Pago de Recibos Rápido y Seguro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>InsureTech Command Center | Dashboard Profesional</title>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -12,811 +23,1628 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Open Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #f5f7fc;
-            color: #1e293b;
-            line-height: 1.5;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
-
         :root {
-            --primary-blue: #00257a;
-            --secondary-blue: #0668f5;
-            --accent-yellow: #ffdd43;
-            --text-dark: #1e293b;
-            --text-gray: #475569;
-            --bg-light: #f8fafc;
-            --white: #ffffff;
-            --border: #e2e8f0;
-            --shadow: 0 20px 35px -12px rgba(0,37,122,0.15);
-            --shadow-hover: 0 25px 40px -12px rgba(0,37,122,0.25);
-            --border-radius-lg: 28px;
-            --border-radius-md: 20px;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #13131f;
+            --bg-tertiary: #1c1c2e;
+            --surface: #252538;
+            --border: #2e2e45;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9494a8;
+            --accent: #6366f1;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
-        /* HEADER */
-        .header {
-            background: var(--white);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-            position: sticky;
+        [data-theme="light"] {
+            --bg-primary: #f5f5f7;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f0f0f5;
+            --surface: #ffffff;
+            --border: #e1e1e6;
+            --text-primary: #1a1a2e;
+            --text-secondary: #6b6b7b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
             top: 0;
-            z-index: 100;
-        }
-        .header-main {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0.8rem 2rem;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
             display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
         }
-        .logo img {
-            height: 46px;
-            width: auto;
-            transition: height 0.2s ease;
-        }
-        .pay-header-btn {
-            background: var(--accent-yellow);
-            color: var(--primary-blue);
-            padding: 0.7rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            text-decoration: none;
+
+        .brand {
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-            border: none;
-            cursor: pointer;
-            white-space: nowrap;
+            gap: 0.75rem;
         }
-        .pay-header-btn:hover {
-            background: #ffe15e;
-            transform: scale(1.02);
-        }
-        .mobile-menu-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 44px;
-            height: 44px;
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            transition: background 0.2s;
-            flex-shrink: 0;
+            color: white;
+            font-size: 1.5rem;
         }
-        .mobile-menu-btn:hover {
-            background: #f1f5f9;
-        }
-        .mobile-menu-btn svg {
-            width: 26px;
-            stroke: var(--primary-blue);
-            stroke-width: 2;
-        }
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 300px;
-            height: 100vh;
-            background: white;
-            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            padding: 2rem 1.5rem;
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            overflow-y: auto;
-        }
-        .nav-menu.active {
-            right: 0;
-        }
-        .nav-menu li a {
-            text-decoration: none;
-            color: var(--text-dark);
+
+        .brand-text h1 {
+            font-size: 1.25rem;
             font-weight: 700;
+        }
+
+        .brand-text span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: color 0.2s;
-            font-size: 1rem;
+            justify-content: center;
         }
-        .nav-menu li a:hover {
-            color: var(--secondary-blue);
+
+        .close-menu:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
-        .menu-overlay {
+
+        .nav-section {
+            padding: 1.5rem 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.875rem;
+            margin-bottom: 0.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 1.25rem;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .user-profile {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+        }
+
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.4);
-            z-index: 990;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
             opacity: 0;
             visibility: hidden;
-            transition: 0.2s;
+            transition: all 0.3s;
         }
-        .menu-overlay.active {
+
+        .overlay.active {
             opacity: 1;
             visibility: visible;
         }
 
-        /* IMAGEN PRINCIPAL */
-        .hero-image-container {
-            max-width: 1280px;
-            margin: 1.5rem auto 0;
-            padding: 0 1.5rem;
-        }
-        .main-image {
+        .main-content {
             width: 100%;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            background: #f0f2f5;
-        }
-        .main-image img {
-            width: 100%;
-            height: auto;
-            max-height: 420px;
-            object-fit: cover;
-            object-position: center 30%;
-            display: block;
-        }
-
-        /* HERO COPY */
-        .hero-copy {
-            max-width: 900px;
-            margin: 2rem auto 0.5rem;
-            padding: 0 1.5rem;
-            text-align: center;
-        }
-        .hero-copy h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary-blue);
-            line-height: 1.2;
-            margin-bottom: 0.8rem;
-        }
-        .hero-copy p {
-            font-size: 1.1rem;
-            color: var(--text-gray);
-            max-width: 650px;
-            margin: 0 auto 1rem;
-        }
-        .security-badge {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .security-badge span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #1e4620;
-            background: #e8f5e9;
-            padding: 0.4rem 1.2rem;
-            border-radius: 60px;
-        }
-        .security-badge svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        /* PAYMENT SECTION */
-        .payment-wrapper {
-            max-width: 700px;
-            margin: 1.5rem auto 2rem;
-            padding: 0 1.5rem;
-        }
-        .payment-card {
-            background: white;
-            border-radius: 32px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        .payment-header {
-            background: linear-gradient(115deg, var(--primary-blue), #003d9e);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        .payment-header h2 {
-            font-size: 1.7rem;
-            font-weight: 800;
-        }
-        .payment-body {
-            padding: 2rem;
-        }
-
-        .payment-buttons {
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1rem;
         }
-        .pay-btn {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.1rem;
+
+        .top-bar {
+            height: 70px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .menu-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            cursor: pointer;
             transition: all 0.2s;
-            background: white;
-            border: 2px solid var(--secondary-blue);
-            color: var(--secondary-blue);
-        }
-        .pay-btn:hover {
-            transform: translateY(-2px);
-            background: #f0f7ff;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-        }
-        .pay-btn svg {
-            width: 28px;
-            height: 28px;
         }
 
-        .bank-details-container {
-            margin-top: 1.5rem;
-            display: none;
-            animation: fadeInUp 0.3s ease;
+        .menu-toggle:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.05);
         }
-        .bank-details-container.show {
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.625rem 1rem 0.625rem 2.5rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--bg-secondary);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+
+        .top-bar-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: var(--surface);
+            color: var(--text-primary);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .icon-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 18px;
+            height: 18px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-tertiary);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.625rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.625rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-danger:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
             display: block;
         }
-        @keyframes fadeInUp {
+
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Tarjeta de datos bancarios */
-        .bank-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #eef2f6 100%);
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
-        .bank-title {
-            font-weight: 800;
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 1.2rem;
+            gap: 0.875rem;
+            transition: all 0.2s;
         }
-        .bank-row {
+
+        .stat-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .stat-icon.purple { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-header {
             display: flex;
             justify-content: space-between;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .bank-row:last-child {
-            border-bottom: none;
-        }
-        .bank-label {
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-        .bank-value {
-            font-family: monospace;
-            font-weight: 600;
-            color: var(--primary-blue);
-            word-break: break-word;
-            text-align: right;
+            align-items: center;
+            margin-bottom: 0.25rem;
         }
 
-        /* GRID DE 6 SEGUROS */
-        .cards-grid {
-            max-width: 1280px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
-        .insurance-card {
-            background: white;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: all 0.25s;
-            cursor: pointer;
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .card {
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .insurance-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow);
+
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .card-img {
-            width: 100%;
-            height: 190px;
-            object-fit: cover;
-        }
-        .card-content {
-            padding: 1.5rem;
-        }
+
         .card-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--primary-blue);
-            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 1.25rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-tertiary);
+        }
+
+        td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .user-cell {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-        .card-desc {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            line-height: 1.5;
+            gap: 0.75rem;
         }
 
-        /* SECCIONES DETALLE */
-        .detail-section {
-            max-width: 1280px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 32px;
-            box-shadow: var(--shadow);
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .user-email {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.2); }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+            background: var(--bg-tertiary);
+        }
+
+        .action-btn.mail:hover { color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .action-btn.edit:hover { color: var(--accent); background: rgba(99, 102, 241, 0.1); }
+        .action-btn.delete:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
             display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
-        .detail-section.active {
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-content.small {
+            max-width: 400px;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
             display: block;
-            animation: fadeIn 0.3s;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px);}
-            to { opacity: 1; transform: translateY(0);}
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-family: inherit;
         }
-        .detail-header h2 {
-            color: var(--primary-blue);
-            font-size: 1.7rem;
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1.25rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .confirm-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            border: 3px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .confirm-text {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toast {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideInRight 0.3s ease;
+            min-width: 280px;
+        }
+
+        .toast.error { border-left-color: var(--danger); }
+        .toast.success { border-left-color: var(--success); }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
             margin-bottom: 1rem;
+            opacity: 0.3;
         }
-        .detail-header p {
-            color: var(--text-gray);
-            margin-bottom: 1rem;
+
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: rgba(30, 30, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 45px 40px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .auth-logo h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #1e1e2e;
+            border: 1px solid #2d2d44;
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 15px;
             font-size: 1rem;
         }
-        .subgrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.8rem;
-            margin-top: 1.5rem;
-        }
-        .info-block {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 24px;
-        }
-        .info-block h3 {
-            color: var(--primary-blue);
-            margin-bottom: 0.8rem;
-            font-weight: 800;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #6366f1;
         }
 
-        .footer {
-            background: var(--primary-blue);
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 16px;
             color: white;
-            padding: 2rem;
-            margin-top: 3rem;
-            text-align: center;
-        }
-        .footer-logo img {
-            height: 42px;
-            filter: brightness(0) invert(1);
-        }
-        .footer p {
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            opacity: 0.9;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        /* ============================================ */
-        /* RESPONSIVE PARA MÓVIL - MÁS AMPLIO Y CERCA */
-        /* ============================================ */
-        @media (max-width: 700px) {
-            /* Reducimos márgenes laterales para aprovechar más ancho */
-            .header-main {
-                padding: 0.6rem 0.8rem;
-                gap: 0.5rem;
-            }
-            
-            .hero-image-container {
-                padding: 0 0.8rem;
-            }
-            
-            .hero-copy {
-                padding: 0 0.8rem;
-            }
-            
-            .payment-wrapper {
-                padding: 0 0.8rem;
-            }
-            
-            .cards-grid {
-                padding: 0 0.8rem;
-                gap: 1rem;
-            }
-            
-            /* Logo más pequeño pero proporcionado */
-            .logo img {
-                height: 34px;
-            }
-            
-            /* Botón pagar ahora más compacto pero legible */
-            .pay-header-btn {
-                padding: 0.55rem 1rem;
-                font-size: 0.85rem;
-                gap: 6px;
-            }
-            
-            .pay-header-btn svg {
-                width: 18px;
-                height: 18px;
-            }
-            
-            /* Botón menú hamburguesa */
-            .mobile-menu-btn {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .mobile-menu-btn svg {
-                width: 24px;
-            }
-            
-            /* Títulos más grandes para móvil (más cerca) */
-            .hero-copy h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-copy p {
-                font-size: 1.05rem;
-            }
-            
-            /* Botones de pago más grandes */
-            .pay-btn {
-                font-size: 1.1rem;
-                padding: 1rem;
-            }
-            
-            /* Tarjeta bancaria - más amplia y con mejor espaciado */
-            .bank-card {
-                padding: 1.2rem;
-            }
-            
-            .bank-title {
-                font-size: 1.15rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            /* En móvil, los rows se ponen en columna para mejor legibilidad */
-            .bank-row {
-                flex-direction: column;
-                gap: 4px;
-                padding: 0.7rem 0;
-            }
-            
-            .bank-label {
-                font-size: 0.9rem;
-            }
-            
-            .bank-value {
-                text-align: left;
-                font-size: 0.95rem;
-                word-break: break-all;
-            }
-            
-            /* Imagen principal más grande en móvil (más cerca) */
-            .main-image img {
-                max-height: 240px;
-            }
-            
-            /* Ajustes de padding en payment body */
-            .payment-body {
-                padding: 1.5rem;
-            }
-            
-            .payment-header h2 {
-                font-size: 1.5rem;
-            }
-            
-            /* Tarjetas de productos más grandes */
-            .card-img {
-                height: 200px;
-            }
-            
-            .card-title {
-                font-size: 1.25rem;
-            }
-            
-            .card-desc {
-                font-size: 0.95rem;
-            }
-            
-            /* Detalle secciones más amplias */
-            .detail-section {
-                padding: 1.2rem;
-                margin: 1rem 0.8rem;
-            }
-            
-            .detail-header h2 {
-                font-size: 1.4rem;
-            }
-            
-            .detail-header p {
-                font-size: 0.95rem;
-            }
-            
-            .info-block {
-                padding: 1.2rem;
-            }
-            
-            .info-block h3 {
-                font-size: 1.1rem;
-            }
-            
-            .info-block p {
-                font-size: 0.9rem;
+        .auth-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-error {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-        
-        /* Para pantallas muy pequeñas (menos de 400px) - ajustes finos */
-        @media (max-width: 480px) {
-            .logo img {
-                height: 30px;
+
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
             }
-            
-            .pay-header-btn {
-                padding: 0.5rem 0.85rem;
-                font-size: 0.8rem;
+            .form-row {
+                grid-template-columns: 1fr;
             }
-            
-            .hero-copy h1 {
-                font-size: 1.7rem;
+            .top-bar {
+                padding: 0 1rem;
             }
-            
-            .payment-header h2 {
-                font-size: 1.3rem;
+            .search-box {
+                display: none;
             }
-            
-            .pay-btn {
-                font-size: 1rem;
-                padding: 0.85rem;
+            .btn-primary span {
+                display: none;
             }
-            
-            .card-img {
-                height: 180px;
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
 </head>
 <body>
 
-<header class="header">
-    <div class="header-main">
-        <a href="#" class="logo"><img src="https://www.santalucia.es/imagenes_slw4/1574967615331/santalucia-seguros.svg" alt="Santalucía Seguros"></a>
-        <div style="display: flex; gap: 8px; align-items: center;">
-            <button class="pay-header-btn" id="goToPaymentBtn">
-                <svg width="18" height="18" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="6" width="44" height="32" rx="4" fill="currentColor" opacity="0.2"/>
-                    <rect x="2" y="14" width="44" height="6" fill="currentColor" opacity="0.4"/>
-                    <rect x="6" y="24" width="8" height="6" rx="1" fill="currentColor"/>
-                    <line x1="32" y1="26" x2="40" y2="26" stroke="currentColor" stroke-width="2"/>
-                    <line x1="32" y1="30" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                Pagar ahora
-            </button>
-            <button class="mobile-menu-btn" id="menuToggleBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-            </button>
+<!-- AUTH PANEL -->
+<div id="authPanel" class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <i class="ph ph-shield-check" style="font-size: 48px; color: #6366f1;"></i>
+            <h1>InsureTech</h1>
+            <p style="color: #888; margin-top: 8px;">Command Center</p>
         </div>
-    </div>
-</header>
-<div class="menu-overlay" id="menuOverlay"></div>
-<ul class="nav-menu" id="navMenu">
-    <li><a href="#" data-section="hogarDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 2 L2 14 L2 32 L11 32 L11 22 L21 22 L21 32 L30 32 L30 14 Z" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M16 2 L30 14" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Hogar</a></li>
-    <li><a href="#" data-section="decesosDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" stroke="#9ca3af" stroke-width="2" fill="none"/><line x1="16" y1="16" x2="16" y2="7" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="23" y2="16" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.5" fill="#9ca3af"/></svg>Decesos</a></li>
-    <li><a href="#" data-section="vidaDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="7" r="5" stroke="#9ca3af" stroke-width="2" fill="none"/><line x1="16" y1="12" x2="16" y2="24" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="19" x2="24" y2="19" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="24" x2="10" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="24" x2="22" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/></svg>Vida</a></li>
-    <li><a href="#" data-section="saludDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,24 8,24 12,14 16,34 20,10 24,24 30,24" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Salud</a></li>
-    <li><a href="#" data-section="mascotasDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="26" rx="9" ry="6" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="7" cy="17" rx="3.5" ry="5" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="25" cy="17" rx="3.5" ry="5" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="11" cy="9" rx="3" ry="4" stroke="#9ca3af" stroke-width="2" fill="none"/><ellipse cx="21" cy="9" rx="3" ry="4" stroke="#9ca3af" stroke-width="2" fill="none"/></svg>Mascotas</a></li>
-    <li><a href="#" data-section="ahorroDetalle"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="12" stroke="#9ca3af" stroke-width="2" fill="none"/><path d="M28 16 C32 12 34 17 30 19" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="13" y="7" width="6" height="2" rx="1" fill="#9ca3af"/><circle cx="22" cy="19" r="1.5" fill="#9ca3af"/><line x1="10" y1="28" x2="8" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/><line x1="22" y1="28" x2="24" y2="32" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/></svg>Ahorro</a></li>
-</ul>
-
-<!-- IMAGEN PRINCIPAL -->
-<div class="hero-image-container">
-    <div class="main-image">
-        <img src="https://institutosantalucia.es/wp-content/uploads/2020/10/como-puedo-pagar-mi-seguro-de-vida-01-1.jpg" alt="Pago seguro de seguros Santalucía">
+        <div id="loginForm">
+            <input type="email" id="loginEmail" class="auth-input" placeholder="admin@crm.com">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Contraseña">
+            <div id="loginError" class="auth-error"></div>
+            <button class="auth-btn" onclick="login()">Iniciar Sesión</button>
+        </div>
     </div>
 </div>
 
-<!-- COPY PERSUASIVO -->
-<div class="hero-copy">
-    <h1>Paga tu recibo <span style="color: var(--secondary-blue);">en segundos</span></h1>
-    <p>La forma más rápida, segura y sin complicaciones de poner al día tus seguros. Elige tu método favorito y olvídate de esperas.</p>
-    <div class="security-badge">
-        <span>
-            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M128 28L38 68v60c0 60 40 100 90 100s90-40 90-100V68l-90-40z" fill="#10B981"/>
-                <path d="M88 128l32 32 48-48" stroke="white" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Pago cifrado SSL
-        </span>
-    </div>
-</div>
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard">
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<!-- SECCIÓN DE PAGO -->
-<div class="payment-wrapper" id="pago-section">
-    <div class="payment-card">
-        <div class="payment-header">
-            <h2>Pago de recibos online</h2>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="ph ph-shield-check"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>InsureTech</h1>
+                    <span>Command Center</span>
+                </div>
+            </div>
+            <button class="close-menu" onclick="closeSidebar()">
+                <i class="ph ph-x"></i>
+            </button>
         </div>
-        <div class="payment-body">
-            <div class="payment-buttons">
-                <button class="pay-btn" id="paypalBtn">
-                    <svg width="28" height="28" viewBox="0 0 48 44" fill="none"><rect x="2" y="4" width="44" height="36" rx="4" fill="#003087"/><text x="24" y="28" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">PayPal</text></svg>
-                    Pagar con PayPal
+
+        <nav class="nav-section">
+            <div class="nav-label">Menú Principal</div>
+            
+            <div class="nav-item active" onclick="navigateTo('dashboard', this)">
+                <i class="ph ph-squares-four"></i>
+                <span>Dashboard</span>
+            </div>
+            
+            <div class="nav-item" onclick="navigateTo('clients', this)">
+                <i class="ph ph-users"></i>
+                <span>Clientes</span>
+                <span class="nav-badge" id="navClientCount">0</span>
+            </div>
+
+            <div class="nav-label" style="margin-top: 2rem;">Herramientas</div>
+            
+            <div class="nav-item" onclick="exportToCSV(); closeSidebar();">
+                <i class="ph ph-download-simple"></i>
+                <span>Exportar CSV</span>
+            </div>
+        </nav>
+
+        <div class="user-profile">
+            <div class="avatar" id="userAvatar">A</div>
+            <div>
+                <div style="font-weight: 600; font-size: 0.9rem;" id="userName">Admin User</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);" id="userEmail">admin@crm.com</div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="ph ph-list"></i>
                 </button>
-                <button class="pay-btn" id="cardBtn">
-                    <svg width="28" height="28" viewBox="0 0 48 44" fill="none"><rect x="2" y="6" width="44" height="32" rx="4" fill="#1e293b"/><rect x="2" y="14" width="44" height="6" fill="rgba(255,255,255,0.3)"/><rect x="6" y="24" width="8" height="6" rx="1" fill="#fbbf24"/><line x1="32" y1="26" x2="40" y2="26" stroke="white" stroke-width="2"/><line x1="32" y1="30" x2="38" y2="30" stroke="white" stroke-width="2"/></svg>
-                    Pagar con Tarjeta
+                
+                <div class="search-box">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar clientes..." oninput="handleSearch(this.value)">
+                </div>
+            </div>
+
+            <div class="top-bar-actions">
+                <button class="icon-btn" onclick="toggleTheme()" title="Cambiar tema">
+                    <i class="ph ph-moon" id="themeIcon"></i>
                 </button>
-                <button class="pay-btn" id="transferBtn">
-                    <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="10" y="85" width="80" height="5" fill="#7f8c8d"/>
-                        <rect x="15" y="80" width="70" height="5" fill="#95a5a6"/>
-                        <rect x="20" y="35" width="60" height="45" fill="#34495e"/>
-                        <rect x="28" y="40" width="10" height="40" fill="#ecf0f1"/>
-                        <rect x="45" y="40" width="10" height="40" fill="#ecf0f1"/>
-                        <rect x="62" y="40" width="10" height="40" fill="#ecf0f1"/>
-                        <polygon points="50,5 90,35 10,35" fill="#2c3e50"/>
-                        <circle cx="50" cy="22" r="9" fill="#f1c40f"/>
-                        <text x="50" y="26" font-size="13" font-weight="bold" fill="#2c3e50" text-anchor="middle">$</text>
-                    </svg>
-                    Transferencia bancaria
+                
+                <button class="btn-primary" onclick="openModal('client')">
+                    <i class="ph ph-plus"></i>
+                    <span>Nuevo</span>
                 </button>
             </div>
-            <div id="bankDetails" class="bank-details-container">
-                <div class="bank-card">
-                    <div class="bank-title">🏦 Datos para transferencia</div>
-                    <div class="bank-row"><span class="bank-label">Banco:</span><span class="bank-value">ZUISA BANCO DUCASCOPY</span></div>
-                    <div class="bank-row"><span class="bank-label">Beneficiario:</span><span class="bank-value">SANTALUCÍA SEGUROS S.A.</span></div>
-                    <div class="bank-row"><span class="bank-label">IBAN:</span><span class="bank-value">ES12 3456 7890 1234 5678 9012</span></div>
-                    <div class="bank-row"><span class="bank-label">BIC/SWIFT:</span><span class="bank-value">ZUBDESMMXXX</span></div>
-                    <div class="bank-row"><span class="bank-label">Concepto:</span><span class="bank-value">Póliza + número de póliza</span></div>
+        </header>
+
+        <div class="content-area">
+            <!-- DASHBOARD VIEW -->
+            <div class="view active" id="view-dashboard">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="ph ph-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-header">
+                                <span class="stat-label">Total Clientes</span>
+                            </div>
+                            <div class="stat-value" id="statClients">0</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="ph ph-warning-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-header">
+                                <span class="stat-label">Importe Pendiente</span>
+                            </div>
+                            <div class="stat-value" id="statPending">0€</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="ph ph-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-header">
+                                <span class="stat-label">Vencidos</span>
+                            </div>
+                            <div class="stat-value" id="statExpired">0</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="ph ph-currency-eur"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-header">
+                                <span class="stat-label">Total Asegurado</span>
+                            </div>
+                            <div class="stat-value" id="statTotal">0€</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Actividad Reciente</div>
+                            <div class="card-subtitle">Últimos clientes registrados</div>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>Cliente</th><th>Póliza</th><th>Importe</th><th>Fecha</th></tr>
+                            </thead>
+                            <tbody id="recentActivity"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLIENTS VIEW -->
+            <div class="view" id="view-clients">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Gestión de Clientes</div>
+                            <div class="card-subtitle" id="clientCountSubtitle">0 registros</div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;">
+                            <button class="btn-secondary" onclick="exportToCSV()">
+                                <i class="ph ph-download-simple"></i>
+                                <span>Exportar</span>
+                            </button>
+                            <button class="btn-primary" onclick="openModal('client')">
+                                <i class="ph ph-plus"></i>
+                                <span>Agregar</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>DNI/NIE</th>
+                                    <th>Póliza</th>
+                                    <th>Vencimiento</th>
+                                    <th>Importe</th>
+                                    <th>Estado</th>
+                                    <th style="text-align:right;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTable"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+    </main>
+</div>
+
+<!-- MODAL: Nuevo Cliente -->
+<div class="modal" id="modal-client">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Nuevo Cliente</h3>
+            <button class="modal-close" onclick="closeModal('client')">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+        <form onsubmit="saveClient(event)">
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="inputName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>DNI/NIE *</label>
+                        <input type="text" id="inputDni" required style="text-transform:uppercase;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="inputEmail" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Póliza *</label>
+                        <input type="text" id="inputPolicy" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" id="inputPhone" required maxlength="9">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Vencimiento *</label>
+                        <input type="date" id="inputExpiry" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Importe (€) *</label>
+                        <input type="number" id="inputAmount" step="0.01" min="0" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('client')">Cancelar</button>
+                <button type="submit" class="btn-primary">Guardar Cliente</button>
+            </div>
+        </form>
     </div>
 </div>
 
-<!-- GRID DE 6 SEGUROS -->
-<div class="cards-grid" id="cardsGrid">
-    <div class="insurance-card" data-target="hogarDetalle">
-        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976190760/hogar_home_v2.webp" alt="Seguro Hogar">
-        <div class="card-content"><div class="card-title">🏠 Seguros de Hogar</div><div class="card-desc">Tu casa siempre protegida con el mejor seguro de Hogar.</div></div>
-    </div>
-    <div class="insurance-card" data-target="decesosDetalle">
-        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976190999/decesos_home_v3.webp" alt="Seguro Decesos">
-        <div class="card-content"><div class="card-title">🕊️ Seguros de Decesos</div><div class="card-desc">Tranquilidad garantizada: seguros de Decesos con cobertura completa.</div></div>
-    </div>
-    <div class="insurance-card" data-target="vidaDetalle">
-        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976191059/vida_home_v2.webp" alt="Seguro Vida">
-        <div class="card-content"><div class="card-title">❤️ Seguros de Vida</div><div class="card-desc">Asegura hoy tu vida y cuida a quienes amas mañana.</div></div>
-    </div>
-    <div class="insurance-card" data-target="saludDetalle">
-        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976192101/salud3_home_v2.webp" alt="Seguro Salud">
-        <div class="card-content"><div class="card-title">🏥 Seguros de Salud</div><div class="card-desc">Tu salud, nuestra prioridad: elige el mejor seguro médico.</div></div>
-    </div>
-    <div class="insurance-card" data-target="mascotasDetalle">
-        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976192312/mascotas_home_v4.webp" alt="Seguro Mascotas">
-        <div class="card-content"><div class="card-title">🐾 Seguros de Mascotas</div><div class="card-desc">Protege a tu mascota con el mejor seguro, tranquilidad garantizada.</div></div>
-    </div>
-    <div class="insurance-card" data-target="ahorroDetalle">
-        <img class="card-img" src="https://www.santalucia.es/imagenes_slw4/1574976192459/ahorro_home_v3.webp" alt="Ahorro e Inversión">
-        <div class="card-content"><div class="card-title">💰 Ahorro e Inversión</div><div class="card-desc">Multiplica tus ahorros y asegura tu tranquilidad financiera.</div></div>
+<!-- MODAL: Editar Cliente -->
+<div class="modal" id="modal-edit">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Editar Cliente</h3>
+            <button class="modal-close" onclick="closeModal('edit')">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+        <form onsubmit="updateClient(event)">
+            <div class="modal-body">
+                <input type="hidden" id="editId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>DNI/NIE *</label>
+                        <input type="text" id="editDni" required style="text-transform:uppercase;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Póliza *</label>
+                        <input type="text" id="editPolicy" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" id="editPhone" required maxlength="9">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Vencimiento *</label>
+                        <input type="date" id="editExpiry" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Importe (€) *</label>
+                        <input type="number" id="editAmount" step="0.01" min="0" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('edit')">Cancelar</button>
+                <button type="submit" class="btn-primary">Actualizar</button>
+            </div>
+        </form>
     </div>
 </div>
 
-<!-- SECCIONES DETALLE -->
-<div id="hogarDetalle" class="detail-section"><div class="detail-header"><h2>Tu hogar, siempre protegido</h2><p>Un seguro de hogar protege tu vivienda y bienes frente a daños, robos e imprevistos, evitando gastos inesperados y dándote la tranquilidad que necesitas cada día.</p></div><div class="subgrid"><div class="info-block"><h3>🏚️ Daños materiales</h3><p>Cubrimos fenómenos climáticos, escapes de agua o actos vandálicos. Reparación o reposición de enseres y estructuras sin complicaciones.</p></div><div class="info-block"><h3>🧾 Gastos</h3><p>Extinción de incendios, limpieza, demolición, alojamiento temporal si la vivienda queda inhabitable, personal de seguridad y vigilancia.</p></div><div class="info-block"><h3>⚖️ Responsabilidad civil</h3><p>Protección ante daños a terceros: si tu hijo rompe una ventana o una fuga afecta al vecino, nos encargamos de la indemnización.</p></div></div></div>
-<div id="decesosDetalle" class="detail-section"><div class="detail-header"><h2>Protección integral para ti y los tuyos</h2><p>Un seguro de decesos cubre gastos de funeral y trámites, ofreciendo tranquilidad financiera y acompañamiento humano.</p></div><div class="subgrid"><div class="info-block"><h3>👨‍👩‍👧 Para todos</h3><p>Familias, parejas y solteros encuentran protección conjunta o individual. Pensado para jóvenes, adultos o quienes viven solos.</p></div><div class="info-block"><h3>✅ Ventajas clave</h3><p>Tranquilidad financiera y apoyo humano, eliminando gestiones y costes inesperados. Acompañamiento emocional y servicios de valor añadido.</p></div><div class="info-block"><h3>⏳ El mejor momento</h3><p>Cuanto antes lo contrates, mayor tranquilidad. Primas adaptadas a la edad y protección inmediata.</p></div></div></div>
-<div id="vidaDetalle" class="detail-section"><div class="detail-header"><h2>Seguridad y tranquilidad para tu familia</h2><p>Proteger el futuro de tus seres queridos empieza con un seguro de Vida. Esta póliza te asegura que, pase lo que pase, tus seres queridos contarán con el apoyo económico necesario.</p></div><div class="subgrid"><div class="info-block"><h3>⚰️ Fallecimiento</h3><p>Indemnización por fallecimiento del asegurado, garantizando respaldo económico a los seres queridos.</p></div><div class="info-block"><h3>🛠️ Coberturas personalizadas</h3><p>Fallecimiento por accidente, invalidez absoluta, segunda opinión médica, enfermedad terminal, rehabilitación cardíaca.</p></div></div></div>
-<div id="saludDetalle" class="detail-section"><div class="detail-header"><h2>Protege tu bienestar físico y emocional</h2><p>Con los seguros médicos privados de Santalucía accedes a una amplia red de especialistas, servicios digitales y cobertura completa.</p></div><div class="subgrid"><div class="info-block"><h3>⏱️ Atención sin esperas</h3><p>Consultas y tratamientos sin listas de espera.</p></div><div class="info-block"><h3>🔬 Especialistas y pruebas</h3><p>Sin autorizaciones ni retrasos.</p></div><div class="info-block"><h3>🌍 Cobertura global</h3><p>Protección nacional y asistencia internacional.</p></div><div class="info-block"><h3>📞 Asistencia 24h</h3><p>Atención médica telefónica y digital.</p></div></div></div>
-<div id="mascotasDetalle" class="detail-section"><div class="detail-header"><h2>Seguro de Mascotas</h2><p>Protege a tu perro o gato con responsabilidad civil, asesoramiento veterinario y garantías opcionales.</p></div><div class="subgrid"><div class="info-block"><h3>🐕 Responsabilidad Civil</h3><p>Daños a terceros ocasionados por tu mascota.</p></div><div class="info-block"><h3>📞 Consulta veterinaria</h3><p>Asesoramiento telefónico 24/7.</p></div><div class="info-block"><h3>➕ Garantías opcionales</h3><p>Accidentes, robo, gastos veterinarios, sacrificio y fallecimiento.</p></div></div></div>
-<div id="ahorroDetalle" class="detail-section"><div class="detail-header"><h2>Impulsa tu futuro financiero</h2><p>Descubre soluciones flexibles y seguras para hacer crecer tu dinero con total confianza.</p></div><div class="subgrid"><div class="info-block"><h3>📈 Crece con seguridad</h3><p>Productos flexibles y rentables adaptados a tus objetivos.</p></div><div class="info-block"><h3>🎯 Estrategias a tu medida</h3><p>Perfil de riesgo, capacidad económica y horizonte temporal.</p></div><div class="info-block"><h3>🤝 Tu futuro, en buenas manos</h3><p>Acompañamiento experto y confianza.</p></div></div></div>
+<!-- MODAL: Confirmar Eliminación -->
+<div class="modal" id="modal-delete">
+    <div class="modal-content small">
+        <div class="modal-body">
+            <div class="confirm-icon">
+                <i class="ph ph-trash"></i>
+            </div>
+            <h3 style="text-align:center;margin-bottom:0.5rem;">¿Eliminar cliente?</h3>
+            <p class="confirm-text">Esta acción no se puede deshacer. Se eliminará permanentemente el cliente.</p>
+            <div style="display:flex;gap:0.75rem;">
+                <button class="btn-secondary" onclick="closeModal('delete')" style="flex:1;">Cancelar</button>
+                <button class="btn-danger" onclick="confirmDelete()" style="flex:1;">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<footer class="footer">
-    <div class="footer-logo"><img src="https://www.santalucia.es/imagenes_slw4/1574967615331/santalucia-seguros.svg" alt="Santalucía Seguros"></div>
-    <p>© 2026 Santalucía Seguros. Todos los derechos reservados.</p>
-</footer>
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
-    // Menú hamburguesa
-    const menuBtn = document.getElementById('menuToggleBtn');
-    const navMenu = document.getElementById('navMenu');
-    const overlay = document.getElementById('menuOverlay');
-    function closeMenu() { navMenu.classList.remove('active'); overlay.classList.remove('active'); }
-    function openMenu() { navMenu.classList.add('active'); overlay.classList.add('active'); }
-    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); if(navMenu.classList.contains('active')) closeMenu(); else openMenu(); });
-    overlay.addEventListener('click', closeMenu);
-    
-    // Navegación menú lateral
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('data-section');
-            if(targetId) {
-                document.querySelectorAll('.detail-section').forEach(sec => sec.classList.remove('active'));
-                const targetSec = document.getElementById(targetId);
-                if(targetSec) targetSec.classList.add('active');
-                targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-            closeMenu();
-        });
-    });
-    
-    // Click en tarjetas de productos
-    document.querySelectorAll('.insurance-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const targetId = card.getAttribute('data-target');
-            if(targetId) {
-                document.querySelectorAll('.detail-section').forEach(sec => sec.classList.remove('active'));
-                const activeSec = document.getElementById(targetId);
-                if(activeSec) activeSec.classList.add('active');
-                activeSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-    
-    // Botón de pago en header
-    document.getElementById('goToPaymentBtn').addEventListener('click', () => {
-        document.getElementById('pago-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    
-    // Botones de pago (simulados)
-    document.getElementById('paypalBtn').addEventListener('click', () => {
-        alert('🔵 Redirigiendo a PayPal para completar su pago de forma segura. (Aquí irá el enlace de pago real)');
-    });
-    document.getElementById('cardBtn').addEventListener('click', () => {
-        alert('💳 Redirigiendo a la pasarela de pago con tarjeta. (Aquí irá el enlace de pago real)');
-    });
-    
-    const bankDetails = document.getElementById('bankDetails');
-    document.getElementById('transferBtn').addEventListener('click', () => {
-        bankDetails.classList.toggle('show');
-        if (bankDetails.classList.contains('show')) {
-            bankDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // ========== CONFIGURACIÓN ==========
+    const firebaseConfig = {
+        apiKey: "AIzaSyBU0Ep9Uio2pIuU5LNZtMJr0ZtB-hzhb20",
+        authDomain: "crm-santalucia-dashboard.firebaseapp.com",
+        projectId: "crm-santalucia-dashboard",
+        storageBucket: "crm-santalucia-dashboard.firebasestorage.app",
+        messagingSenderId: "1091691185128",
+        appId: "1:1091691185128:web:c2a92a9f8cbd419aec9a5d"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Variables globales
+    let clients = [];
+    let filteredClients = [];
+    let deleteId = null;
+    let unsubscribeClients = null;
+    let currentUser = null;
+
+    // ========== AUTENTICACIÓN ==========
+    async function login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const errorDiv = document.getElementById('loginError');
+
+        if (!email || !password) {
+            errorDiv.textContent = 'Completa todos los campos';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            errorDiv.style.display = 'none';
+            showToast('Bienvenido a InsureTech', 'success');
+        } catch (error) {
+            errorDiv.textContent = 'Email o contraseña incorrectos';
+            errorDiv.style.display = 'block';
+        }
+    }
+
+    async function logout() {
+        try {
+            await auth.signOut();
+            showToast('Sesión cerrada', 'info');
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
+    }
+
+    // ========== ESCUCHAR DATOS EN TIEMPO REAL ==========
+    function listenToClients() {
+        if (unsubscribeClients) unsubscribeClients();
+        
+        unsubscribeClients = db.collection('clients')
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(snapshot => {
+                clients = [];
+                snapshot.forEach(doc => {
+                    clients.push({ id: doc.id, ...doc.data() });
+                });
+                filteredClients = [...clients];
+                renderTable();
+                updateStats();
+                updateRecentActivity();
+                document.getElementById('navClientCount').textContent = clients.length;
+                showToast('Datos sincronizados', 'success');
+            }, error => {
+                console.error('Error en snapshot:', error);
+                showToast('Error al sincronizar datos', 'error');
+            });
+    }
+
+    // ========== CRUD CLIENTES ==========
+    async function saveClient(event) {
+        event.preventDefault();
+        
+        const clientData = {
+            name: document.getElementById('inputName').value,
+            email: document.getElementById('inputEmail').value,
+            dni: document.getElementById('inputDni').value.toUpperCase(),
+            policy: document.getElementById('inputPolicy').value,
+            phone: document.getElementById('inputPhone').value,
+            expiry: document.getElementById('inputExpiry').value,
+            amount: parseFloat(document.getElementById('inputAmount').value),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            userId: currentUser?.uid
+        };
+        
+        try {
+            await db.collection('clients').add(clientData);
+            closeModal('client');
+            document.getElementById('inputName').value = '';
+            document.getElementById('inputEmail').value = '';
+            document.getElementById('inputDni').value = '';
+            document.getElementById('inputPolicy').value = '';
+            document.getElementById('inputPhone').value = '';
+            document.getElementById('inputExpiry').value = '';
+            document.getElementById('inputAmount').value = '';
+            showToast('Cliente guardado correctamente', 'success');
+        } catch (error) {
+            console.error('Error al guardar:', error);
+            showToast('Error al guardar el cliente', 'error');
+        }
+    }
+
+    function editClient(id) {
+        const client = clients.find(c => c.id === id);
+        if (!client) return;
+        
+        document.getElementById('editId').value = client.id;
+        document.getElementById('editName').value = client.name;
+        document.getElementById('editEmail').value = client.email;
+        document.getElementById('editDni').value = client.dni;
+        document.getElementById('editPolicy').value = client.policy;
+        document.getElementById('editPhone').value = client.phone;
+        document.getElementById('editExpiry').value = client.expiry;
+        document.getElementById('editAmount').value = client.amount;
+        
+        openModal('edit');
+    }
+
+    async function updateClient(event) {
+        event.preventDefault();
+        
+        const id = document.getElementById('editId').value;
+        const updates = {
+            name: document.getElementById('editName').value,
+            email: document.getElementById('editEmail').value,
+            dni: document.getElementById('editDni').value.toUpperCase(),
+            policy: document.getElementById('editPolicy').value,
+            phone: document.getElementById('editPhone').value,
+            expiry: document.getElementById('editExpiry').value,
+            amount: parseFloat(document.getElementById('editAmount').value),
+            updatedAt: new Date().toISOString()
+        };
+        
+        try {
+            await db.collection('clients').doc(id).update(updates);
+            closeModal('edit');
+            showToast('Cliente actualizado', 'success');
+        } catch (error) {
+            console.error('Error al actualizar:', error);
+            showToast('Error al actualizar', 'error');
+        }
+    }
+
+    function showDeleteModal(id) {
+        deleteId = id;
+        openModal('delete');
+    }
+
+    async function confirmDelete() {
+        if (!deleteId) return;
+        
+        try {
+            await db.collection('clients').doc(deleteId).delete();
+            closeModal('delete');
+            showToast('Cliente eliminado', 'success');
+            deleteId = null;
+        } catch (error) {
+            console.error('Error al eliminar:', error);
+            showToast('Error al eliminar', 'error');
+        }
+    }
+
+    // ========== RENDERIZAR TABLA ==========
+    function renderTable() {
+        const tbody = document.getElementById('clientsTable');
+        const data = filteredClients;
+        
+        document.getElementById('clientCountSubtitle').innerHTML = `${data.length} registros encontrados`;
+        
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No hay clientes registrados</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = data.map(client => {
+            const isExpired = new Date(client.expiry) < new Date();
+            const statusClass = client.amount === 0 ? 'badge-success' : (isExpired ? 'badge-danger' : 'badge-warning');
+            const statusText = client.amount === 0 ? 'Pagado' : (isExpired ? 'Vencido' : 'Pendiente');
+            
+            return `
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            <div class="user-avatar">${client.name.charAt(0)}</div>
+                            <div>
+                                <div class="user-name">${escapeHtml(client.name)}</div>
+                                <div class="user-email">${escapeHtml(client.email)}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="font-family:monospace;">${client.dni}</td>
+                    <td style="font-weight:600;color:var(--accent);">${escapeHtml(client.policy)}</td>
+                    <td>${formatDate(client.expiry)}</td>
+                    <td class="${client.amount > 0 ? 'amount' : ''}" style="color:${client.amount > 0 ? 'var(--warning)' : 'var(--success)'}">${client.amount.toFixed(2)}€</td>
+                    <td><span class="badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn mail" onclick="window.location.href='mailto:${client.email}'" title="Enviar correo"><i class="ph ph-envelope-simple"></i></button>
+                            <button class="action-btn edit" onclick="editClient('${client.id}')" title="Editar"><i class="ph ph-pencil-simple"></i></button>
+                            <button class="action-btn delete" onclick="showDeleteModal('${client.id}')" title="Eliminar"><i class="ph ph-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function updateRecentActivity() {
+        const tbody = document.getElementById('recentActivity');
+        const recent = [...clients].slice(0, 5);
+        
+        if (recent.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No hay actividad reciente</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = recent.map(client => `
+            <tr>
+                <td>
+                    <div>
+                        <div class="user-name">${escapeHtml(client.name)}</div>
+                        <div class="user-email">${escapeHtml(client.email)}</div>
+                    </div>
+                </td>
+                <td style="font-weight:600;color:var(--accent);">${escapeHtml(client.policy)}</td>
+                <td>${client.amount.toFixed(2)}€</td>
+                <td>${formatDate(client.createdAt || client.expiry)}</td>
+            </tr>
+        `).join('');
+    }
+
+    function updateStats() {
+        const totalClients = clients.length;
+        const pendingAmount = clients.reduce((sum, c) => sum + (c.amount || 0), 0);
+        const expired = clients.filter(c => new Date(c.expiry) < new Date() && c.amount > 0).length;
+        const totalAmount = clients.reduce((sum, c) => sum + (c.amount || 0), 0);
+        
+        document.getElementById('statClients').textContent = totalClients;
+        document.getElementById('statPending').textContent = pendingAmount.toFixed(2) + '€';
+        document.getElementById('statExpired').textContent = expired;
+        document.getElementById('statTotal').textContent = totalAmount.toFixed(2) + '€';
+    }
+
+    function handleSearch(value) {
+        const term = value.toLowerCase().trim();
+        
+        if (!term) {
+            filteredClients = [...clients];
+        } else {
+            filteredClients = clients.filter(c =>
+                c.name?.toLowerCase().includes(term) ||
+                c.email?.toLowerCase().includes(term) ||
+                c.dni?.toLowerCase().includes(term) ||
+                c.policy?.toLowerCase().includes(term)
+            );
+        }
+        
+        renderTable();
+    }
+
+    // ========== EXPORTAR ==========
+    function exportToCSV() {
+        if (clients.length === 0) {
+            showToast('No hay datos para exportar', 'error');
+            return;
+        }
+        
+        const headers = ['Nombre', 'Email', 'DNI', 'Póliza', 'Teléfono', 'Vencimiento', 'Importe'];
+        const rows = clients.map(c => [c.name, c.email, c.dni, c.policy, c.phone, c.expiry, c.amount]);
+        
+        const csv = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `clientes_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showToast('CSV exportado correctamente', 'success');
+    }
+
+    // ========== UI ==========
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('active');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('active');
+    }
+
+    function navigateTo(view, element) {
+        closeSidebar();
+        
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        if (element) element.classList.add('active');
+        
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.getElementById(`view-${view}`).classList.add('active');
+        
+        if (view === 'clients') renderTable();
+    }
+
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        
+        const icon = document.querySelector('#themeIcon');
+        if (icon) icon.className = next === 'dark' ? 'ph ph-moon' : 'ph ph-sun';
+    }
+
+    function openModal(type) {
+        document.getElementById(`modal-${type}`).classList.add('active');
+    }
+
+    function closeModal(type) {
+        document.getElementById(`modal-${type}`).classList.remove('active');
+    }
+
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icon = type === 'success' ? 'ph-check-circle' : type === 'error' ? 'ph-x-circle' : 'ph-info';
+        toast.innerHTML = `<i class="ph ${icon}"></i><span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '-';
+        return new Date(dateStr).toLocaleDateString('es-ES');
+    }
+
+    // ========== INICIALIZACIÓN ==========
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.querySelector('#themeIcon');
+            if (icon) icon.className = savedTheme === 'dark' ? 'ph ph-moon' : 'ph ph-sun';
+        }
+    }
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            currentUser = user;
+            document.getElementById('authPanel').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userName').textContent = user.email.split('@')[0];
+            document.getElementById('userAvatar').textContent = user.email.charAt(0).toUpperCase();
+            
+            listenToClients();
+        } else {
+            if (unsubscribeClients) unsubscribeClients();
+            document.getElementById('authPanel').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('active');
+            currentUser = null;
         }
     });
-    
-    // Inicial
-    bankDetails.classList.remove('show');
-    document.querySelectorAll('.detail-section').forEach(sec => sec.classList.remove('active'));
+
+    initTheme();
+
+    // Cerrar modales al hacer click fuera
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+    });
 </script>
 </body>
 </html>
