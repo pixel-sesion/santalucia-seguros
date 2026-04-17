@@ -54,7 +54,7 @@
             width: 100%;
         }
         .header-inner {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 0.8rem 1.5rem;
             display: flex;
@@ -62,6 +62,8 @@
             align-items: center;
             gap: 1rem;
         }
+
+        /* Logo */
         .logo { 
             display: flex;
             align-items: center;
@@ -72,6 +74,29 @@
             width: auto; 
             display: block; 
         }
+
+        /* Menú desktop (PC) - visible solo en pantallas grandes */
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+        .desktop-nav a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 40px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .desktop-nav a:hover {
+            background: #f0f7ff;
+        }
+
+        /* Botones header */
         .header-actions { 
             display: flex; 
             align-items: center; 
@@ -97,13 +122,14 @@
         }
         .pay-header-btn:hover { background: #ffe860; transform: scale(1.02); }
 
+        /* Botón menú móvil - oculto en PC */
         .menu-btn {
             background: none; 
             border: none; 
             cursor: pointer;
             width: 42px; 
             height: 42px;
-            display: flex; 
+            display: none;
             align-items: center; 
             justify-content: center;
             border-radius: 10px; 
@@ -113,7 +139,12 @@
         .menu-btn:hover { background: #f1f5f9; }
         .menu-btn svg { width: 24px; height: 24px; stroke: var(--blue); stroke-width: 2; fill: none; }
 
-        /* ── SIDE NAV ── */
+        /* Logo móvil más pequeño (se aplica solo en móvil) */
+        .logo-mobile img {
+            height: 32px !important;
+        }
+
+        /* ── SIDE NAV (menú móvil) ── */
         .nav-overlay {
             position: fixed; 
             inset: 0;
@@ -129,7 +160,7 @@
             position: fixed; 
             top: 0; 
             right: -320px;
-            width: 300px; 
+            width: 280px; 
             height: 100dvh;
             background: var(--white);
             box-shadow: -6px 0 24px rgba(0,0,0,0.1);
@@ -174,9 +205,9 @@
         }
         .nav-list li a {
             text-decoration: none; 
-            color: var(--dark); 
-            font-weight: 700; 
-            font-size: 0.95rem;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 1rem;
             display: flex; 
             align-items: center; 
             gap: 12px;
@@ -185,11 +216,11 @@
             transition: background .15s, color .15s;
         }
         .nav-list li a:hover { background: #f0f7ff; color: var(--blue2); }
-        .nav-list li a svg { width: 22px; height: 22px; flex-shrink: 0; stroke: var(--gray); fill: none; stroke-width: 1.8; }
+        .nav-list li a svg { width: 22px; height: 22px; flex-shrink: 0; stroke: var(--blue2); fill: none; stroke-width: 1.8; }
 
         /* ── HERO IMAGE ── */
         .hero-img-wrap { 
-            max-width: 1200px; 
+            max-width: 1280px; 
             margin: 1rem auto 0; 
             padding: 0 1.5rem; 
         }
@@ -295,9 +326,8 @@
         .pay-btn:active { transform: translateY(0); }
         .pay-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
 
-        /* Transfer toggle btn */
-        .transfer-btn { border-color: #475569; color: #475569; }
-        .transfer-btn:hover { background: #f8fafc; box-shadow: 0 10px 20px rgba(71,85,105,0.10); }
+        /* Transfer btn ahora con mismo color azul */
+        .transfer-btn { border-color: var(--blue2); color: var(--blue2); }
 
         /* ── BANK DETAILS ── */
         .bank-wrap {
@@ -307,7 +337,7 @@
             transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s;
             opacity: 0;
         }
-        .bank-wrap.open { max-height: 400px; opacity: 1; }
+        .bank-wrap.open { max-height: 500px; opacity: 1; }
 
         .bank-card {
             background: #f8fafc;
@@ -341,16 +371,16 @@
         }
         .bank-value { 
             font-family: 'Courier New', monospace; 
-            font-weight: 600; 
-            color: var(--blue); 
+            font-weight: 800;
+            color: var(--blue);
             font-size: 0.85rem; 
             text-align: right; 
-            word-break: break-all; 
+            word-break: break-all;
         }
 
         /* ── PRODUCTS GRID ── */
         .cards-section { 
-            max-width: 1200px; 
+            max-width: 1280px; 
             margin: 1.5rem auto; 
             padding: 0 1.5rem; 
         }
@@ -401,7 +431,7 @@
 
         /* ── DETAIL SECTIONS ── */
         .details-area { 
-            max-width: 1200px; 
+            max-width: 1280px; 
             margin: 0 auto; 
             padding: 0 1.5rem 0.5rem; 
         }
@@ -479,23 +509,105 @@
             opacity: 0.85; 
         }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 640px) {
-            .hero-copy h1 { font-size: 1.5rem; }
-            .hero-img-inner img { max-height: 180px; }
-            .payment-card-body { padding: 1.2rem; }
-            .detail-sec { padding: 1.2rem; }
-            .bank-row { flex-direction: column; align-items: flex-start; gap: 4px; }
-            .bank-value { text-align: left; }
-            .header-inner { padding: 0.6rem 1rem; }
-            .pay-header-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
-            .pay-header-btn svg { width: 14px; height: 14px; }
+        /* ═══════════════════════════════════════ RESPONSIVE ═══════════════════════════════════════ */
+        
+        /* PC y tablet grande: mostrar menú desktop, ocultar menú móvil */
+        @media (min-width: 769px) {
+            .desktop-nav {
+                display: flex;
+            }
+            .menu-btn {
+                display: none;
+            }
+            .logo-mobile-only {
+                display: none;
+            }
+            .logo-desktop-only {
+                display: block;
+            }
+        }
+
+        /* MÓVIL (max-width: 768px) */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            .menu-btn {
+                display: flex;
+            }
+            .logo-desktop-only {
+                display: none;
+            }
+            .logo-mobile-only {
+                display: block;
+            }
+            .logo-mobile-only img {
+                height: 32px !important;
+            }
+            
+            /* Badges en una sola línea en móvil */
+            .badge-row {
+                flex-wrap: nowrap;
+                gap: 0.5rem;
+            }
+            .badge {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.7rem;
+                white-space: nowrap;
+            }
+            .badge svg {
+                width: 12px;
+                height: 12px;
+            }
+            
+            /* Ajustes generales móvil */
+            .hero-copy h1 {
+                font-size: 1.5rem;
+            }
+            .hero-img-inner img {
+                max-height: 180px;
+            }
+            .payment-card-body {
+                padding: 1.2rem;
+            }
+            .bank-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .bank-value {
+                text-align: left;
+            }
+            .header-inner {
+                padding: 0.6rem 1rem;
+            }
+            .pay-header-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            .pay-header-btn svg {
+                width: 14px;
+                height: 14px;
+            }
         }
 
         @media (max-width: 480px) {
-            .hero-copy h1 { font-size: 1.3rem; }
-            .cards-grid { gap: 0.9rem; }
-            .ins-card img { height: 140px; }
+            .hero-copy h1 {
+                font-size: 1.3rem;
+            }
+            .cards-grid {
+                gap: 0.9rem;
+            }
+            .ins-card img {
+                height: 140px;
+            }
+            .badge-row {
+                gap: 0.4rem;
+            }
+            .badge {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.6rem;
+            }
         }
     </style>
 </head>
@@ -504,9 +616,25 @@
 <!-- ═══════════════════════════════════════ HEADER ═══ -->
 <header class="header">
     <div class="header-inner">
-        <a href="#" class="logo">
+        <!-- Logo versión desktop (tamaño normal) -->
+        <a href="#" class="logo logo-desktop-only">
             <img src="https://www.santalucia.es/imagenes_slw4/1574967615331/santalucia-seguros.svg" alt="Santalucía Seguros">
         </a>
+        <!-- Logo versión móvil (más pequeño) -->
+        <a href="#" class="logo logo-mobile-only">
+            <img src="https://www.santalucia.es/imagenes_slw4/1574967615331/santalucia-seguros.svg" alt="Santalucía Seguros">
+        </a>
+
+        <!-- Menú desktop (PC) - Botones azules: Hogar, Decesos, Vida, Salud, Mascotas, Ahorro -->
+        <nav class="desktop-nav">
+            <a href="#" data-section="sec-hogar">Hogar</a>
+            <a href="#" data-section="sec-decesos">Decesos</a>
+            <a href="#" data-section="sec-vida">Vida</a>
+            <a href="#" data-section="sec-salud">Salud</a>
+            <a href="#" data-section="sec-mascotas">Mascotas</a>
+            <a href="#" data-section="sec-ahorro">Ahorro</a>
+        </nav>
+
         <div class="header-actions">
             <button class="pay-header-btn" id="goToPayBtn">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -526,7 +654,7 @@
     </div>
 </header>
 
-<!-- ═══════════════════════════════════════ SIDE NAV ═══ -->
+<!-- ═══════════════════════════════════════ SIDE NAV (menú móvil) ═══ -->
 <div class="nav-overlay" id="navOverlay"></div>
 <nav class="side-nav" id="sideNav" aria-label="Menú de seguros">
     <div class="side-nav-head">
@@ -539,61 +667,12 @@
         </button>
     </div>
     <ul class="nav-list">
-        <li>
-            <a href="#" data-section="sec-hogar">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" fill="none"/>
-                    <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" fill="none"/>
-                </svg>
-                Hogar
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="sec-decesos">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none"/>
-                    <polyline points="12 6 12 12 16 14" stroke="currentColor" fill="none"/>
-                </svg>
-                Decesos
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="sec-vida">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" fill="none"/>
-                </svg>
-                Vida
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="sec-salud">
-                <svg viewBox="0 0 24 24">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" fill="none"/>
-                </svg>
-                Salud
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="sec-mascotas">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="4.5" cy="9.5" r="2.5" stroke="currentColor" fill="none"/>
-                    <circle cx="9" cy="5.5" r="2.5" stroke="currentColor" fill="none"/>
-                    <circle cx="15" cy="5.5" r="2.5" stroke="currentColor" fill="none"/>
-                    <circle cx="19.5" cy="9.5" r="2.5" stroke="currentColor" fill="none"/>
-                    <path d="M12 18.5c-4 0-7-3-7-3s1.5-5 7-5 7 5 7 5-3 3-7 3z" stroke="currentColor" fill="none"/>
-                </svg>
-                Mascotas
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="sec-ahorro">
-                <svg viewBox="0 0 24 24">
-                    <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor"/>
-                    <path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" fill="none"/>
-                </svg>
-                Ahorro
-            </a>
-        </li>
+        <li><a href="#" data-section="sec-hogar">🏠 Hogar</a></li>
+        <li><a href="#" data-section="sec-decesos">🕊️ Decesos</a></li>
+        <li><a href="#" data-section="sec-vida">❤️ Vida</a></li>
+        <li><a href="#" data-section="sec-salud">🏥 Salud</a></li>
+        <li><a href="#" data-section="sec-mascotas">🐾 Mascotas</a></li>
+        <li><a href="#" data-section="sec-ahorro">💰 Ahorro</a></li>
     </ul>
 </nav>
 
@@ -656,14 +735,14 @@
                     Pagar con Tarjeta
                 </a>
 
-                <!-- Transferencia -->
+                <!-- Transferencia (mismo color azul ahora) -->
                 <button class="pay-btn transfer-btn" id="transferBtn">
                     <svg viewBox="0 0 48 44" fill="none">
-                        <rect x="4" y="28" width="40" height="12" rx="2" fill="#64748b"/>
-                        <rect x="8" y="16" width="32" height="14" rx="2" fill="#334155"/>
-                        <polygon points="24,4 42,16 6,16" fill="#1e293b"/>
-                        <circle cx="24" cy="10" r="4" fill="#fbbf24"/>
-                        <text x="24" y="13" font-family="Arial,sans-serif" font-size="6" font-weight="bold" fill="#1e293b" text-anchor="middle">$</text>
+                        <rect x="4" y="28" width="40" height="12" rx="2" fill="#0668f5"/>
+                        <rect x="8" y="16" width="32" height="14" rx="2" fill="#00257a"/>
+                        <polygon points="24,4 42,16 6,16" fill="#003dab"/>
+                        <circle cx="24" cy="10" r="4" fill="#ffdd43"/>
+                        <text x="24" y="13" font-family="Arial,sans-serif" font-size="6" font-weight="bold" fill="#00257a" text-anchor="middle">$</text>
                         <rect x="10" y="20" width="5" height="10" fill="rgba(255,255,255,0.25)"/>
                         <rect x="21" y="20" width="5" height="10" fill="rgba(255,255,255,0.25)"/>
                         <rect x="32" y="20" width="5" height="10" fill="rgba(255,255,255,0.25)"/>
@@ -672,7 +751,7 @@
                 </button>
             </div>
 
-            <!-- Bank details (toggle) -->
+            <!-- Bank details (toggle) - con valores en NEGRITA y AZUL OSCURO -->
             <div class="bank-wrap" id="bankWrap">
                 <div class="bank-card">
                     <div class="bank-card-title">
@@ -680,23 +759,23 @@
                     </div>
                     <div class="bank-row">
                         <span class="bank-label">Banco</span>
-                        <span class="bank-value">Dukascopy Bank SA</span>
+                        <span class="bank-value" style="font-weight:800; color:#00257a;">Dukascopy Bank SA</span>
                     </div>
                     <div class="bank-row">
                         <span class="bank-label">Beneficiario</span>
-                        <span class="bank-value">SANTALUCÍA</span>
+                        <span class="bank-value" style="font-weight:800; color:#00257a;">SANTALUCÍA</span>
                     </div>
                     <div class="bank-row">
                         <span class="bank-label">IBAN</span>
-                        <span class="bank-value">CH77 0884 3150 7166 2102 0</span>
+                        <span class="bank-value" style="font-weight:800; color:#00257a;">CH77 0884 3150 7166 2102 0</span>
                     </div>
                     <div class="bank-row">
                         <span class="bank-label">BIC / SWIFT</span>
-                        <span class="bank-value">DUBACHGG</span>
+                        <span class="bank-value" style="font-weight:800; color:#00257a;">DUBACHGG</span>
                     </div>
                     <div class="bank-row">
                         <span class="bank-label">Concepto</span>
-                        <span class="bank-value">Póliza + número de póliza</span>
+                        <span class="bank-value" style="font-weight:800; color:#00257a;">Póliza + número de póliza</span>
                     </div>
                 </div>
             </div>
@@ -900,7 +979,7 @@
     closeNav.addEventListener('click', closeMenu);
     navOverlay.addEventListener('click', closeMenu);
 
-    /* ── NAV LINKS → DETAIL SECTIONS ── */
+    /* ── NAV LINKS (desktop y móvil) → DETAIL SECTIONS ── */
     document.querySelectorAll('[data-section]').forEach(el => {
         el.addEventListener('click', e => {
             e.preventDefault();
