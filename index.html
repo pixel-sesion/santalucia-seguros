@@ -357,8 +357,8 @@
         .bank-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
+            align-items: flex-start;
+            padding: 0.6rem 0;
             border-bottom: 1px solid var(--border);
             gap: 1rem;
         }
@@ -368,19 +368,22 @@
             color: var(--dark); 
             font-size: 0.85rem; 
             white-space: nowrap; 
+            min-width: 90px;
         }
-        .bank-value { 
-            font-family: 'Courier New', monospace; 
+        /* ESTILO ESPECIAL PARA LOS VALORES: AZUL NEGRITA CON MUCHA LUZ */
+        .bank-value {
             font-weight: 800;
-            color: var(--blue);
-            font-size: 0.85rem; 
-            text-align: right; 
-            word-break: break-all;
+            color: #003dbb;
+            font-size: 0.9rem;
+            text-align: right;
+            word-break: break-word;
+            letter-spacing: 0.3px;
+            text-shadow: 0 0 1px rgba(0,61,187,0.2);
         }
 
         /* ── PRODUCTS GRID ── */
         .cards-section { 
-            max-width: 1280px; 
+            max-width: 1100px; 
             margin: 1.5rem auto; 
             padding: 0 1.5rem; 
         }
@@ -392,10 +395,11 @@
             text-align: center; 
         }
 
+        /* GRID: en PC siempre 3 columnas (3 arriba + 3 abajo) */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
         }
 
         .ins-card {
@@ -527,6 +531,19 @@
             }
         }
 
+        /* TABLET (entre 769px y 900px) - mantener 3 columnas pero más compactas */
+        @media (min-width: 769px) and (max-width: 900px) {
+            .cards-section {
+                max-width: 95%;
+            }
+            .cards-grid {
+                gap: 1rem;
+            }
+            .ins-card img {
+                height: 140px;
+            }
+        }
+
         /* MÓVIL (max-width: 768px) */
         @media (max-width: 768px) {
             .desktop-nav {
@@ -543,6 +560,12 @@
             }
             .logo-mobile-only img {
                 height: 32px !important;
+            }
+            
+            /* En móvil: 1 columna (stack vertical) */
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
             /* Badges en una sola línea en móvil */
@@ -594,9 +617,6 @@
         @media (max-width: 480px) {
             .hero-copy h1 {
                 font-size: 1.3rem;
-            }
-            .cards-grid {
-                gap: 0.9rem;
             }
             .ins-card img {
                 height: 140px;
@@ -735,7 +755,7 @@
                     Pagar con Tarjeta
                 </a>
 
-                <!-- Transferencia (mismo color azul ahora) -->
+                <!-- Transferencia -->
                 <button class="pay-btn transfer-btn" id="transferBtn">
                     <svg viewBox="0 0 48 44" fill="none">
                         <rect x="4" y="28" width="40" height="12" rx="2" fill="#0668f5"/>
@@ -751,31 +771,35 @@
                 </button>
             </div>
 
-            <!-- Bank details (toggle) - con valores en NEGRITA y AZUL OSCURO -->
+            <!-- Bank details (toggle) - DATOS EN AZUL NEGRITA CON MUCHA LUZ -->
             <div class="bank-wrap" id="bankWrap">
                 <div class="bank-card">
                     <div class="bank-card-title">
                         🏦 Datos para transferencia
                     </div>
                     <div class="bank-row">
-                        <span class="bank-label">Banco</span>
-                        <span class="bank-value" style="font-weight:800; color:#00257a;">Dukascopy Bank SA</span>
+                        <span class="bank-label">Beneficiario:</span>
+                        <span class="bank-value">SANTALUCIA</span>
                     </div>
                     <div class="bank-row">
-                        <span class="bank-label">Beneficiario</span>
-                        <span class="bank-value" style="font-weight:800; color:#00257a;">SANTALUCÍA</span>
+                        <span class="bank-label">IBAN:</span>
+                        <span class="bank-value">CH77 0884 3150 7166 2102 0</span>
                     </div>
                     <div class="bank-row">
-                        <span class="bank-label">IBAN</span>
-                        <span class="bank-value" style="font-weight:800; color:#00257a;">CH77 0884 3150 7166 2102 0</span>
+                        <span class="bank-label">SWIFT/BIC:</span>
+                        <span class="bank-value">DUBACHGG</span>
                     </div>
                     <div class="bank-row">
-                        <span class="bank-label">BIC / SWIFT</span>
-                        <span class="bank-value" style="font-weight:800; color:#00257a;">DUBACHGG</span>
+                        <span class="bank-label">Banco:</span>
+                        <span class="bank-value">Dukascopy Bank SA</span>
                     </div>
                     <div class="bank-row">
-                        <span class="bank-label">Concepto</span>
-                        <span class="bank-value" style="font-weight:800; color:#00257a;">Póliza + número de póliza</span>
+                        <span class="bank-label">Dirección:</span>
+                        <span class="bank-value">Ruta de Pré-Bois 20, 1215 Ginebra, Suiza</span>
+                    </div>
+                    <div class="bank-row">
+                        <span class="bank-label">Concepto:</span>
+                        <span class="bank-value">Número de póliza</span>
                     </div>
                 </div>
             </div>
